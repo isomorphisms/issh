@@ -1,0 +1,8 @@
+package issh
+
+version = 0.1.0
+sourcedir = "."
+
+modules = Client,
+          CLI,
+          ISSH
