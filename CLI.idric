@@ -1,0 +1,23 @@
+module CLI
+
+import Client
+
+parse_destination : (TerminalPolicy, List String) → Either String ClientRequest
+parse_destination (_, []) = Left "destination required"
+parse_destination (terminal_policy, destination :: command) =
+  Right (MkClientRequest destination terminal_policy command)
+
+parse_prefix : (TerminalPolicy, List String) → Either String ClientRequest
+parse_prefix (_, "-T" :: rest) = parse_prefix (NoTerminal, rest)
+parse_prefix (_, "--no-terminal" :: rest) = parse_prefix (NoTerminal, rest)
+parse_prefix (_, "--no-terminal-this-time-thanks" :: rest) =
+  parse_prefix (NoTerminal, rest)
+parse_prefix (terminal_policy, "--" :: rest) =
+  parse_destination (terminal_policy, rest)
+parse_prefix (terminal_policy, rest) =
+  parse_destination (terminal_policy, rest)
+
+public export
+parse_cli_arguments : List String → Either String ClientRequest
+parse_cli_arguments arguments =
+  parse_prefix (TerminalDefault, arguments)
