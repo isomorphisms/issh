@@ -1,0 +1,38 @@
+name: Sync SSH RFC mirror
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - rfc-mirror
+    paths:
+      - rfc/MANIFEST.tsv
+      - rfc/update.sh
+      - .github/workflows/rfc-mirror.yml
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch canonical RFC Editor text
+        run: sh rfc/update.sh
+
+      - name: Commit mirror bytes
+        shell: sh
+        run: |
+          git add rfc/text rfc/SHA256SUMS
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'docs: refresh SSH RFC mirror'
+          git push origin "HEAD:${GITHUB_REF_NAME}"

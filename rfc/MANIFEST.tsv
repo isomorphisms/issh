@@ -1,0 +1,39 @@
+# rfc	role	title
+4250	registry	The Secure Shell (SSH) Protocol Assigned Numbers
+4251	core	The Secure Shell (SSH) Protocol Architecture
+4252	core	The Secure Shell (SSH) Authentication Protocol
+4253	core	The Secure Shell (SSH) Transport Layer Protocol
+4254	core	The Secure Shell (SSH) Connection Protocol
+4255	dns	Using DNS to Securely Publish Secure Shell (SSH) Key Fingerprints
+4256	authentication	Generic Message Exchange Authentication for the Secure Shell Protocol (SSH)
+4335	connection-extension	The Secure Shell (SSH) Session Channel Break Extension
+4344	transport-encryption	The Secure Shell (SSH) Transport Layer Encryption Modes
+4345	legacy-transport	Improved Arcfour Modes for the Secure Shell (SSH) Transport Layer Protocol
+4419	key-exchange	Diffie-Hellman Group Exchange for the Secure Shell (SSH) Transport Layer Protocol
+4432	key-exchange	RSA Key Exchange for the Secure Shell (SSH) Transport Layer Protocol
+4462	authentication-key-exchange	Generic Security Service Application Program Interface (GSS-API) Authentication and Key Exchange for the Secure Shell (SSH) Protocol
+4716	file-format	The Secure Shell (SSH) Public Key File Format
+4819	public-key-subsystem	Secure Shell Public Key Subsystem
+5647	transport-encryption	AES Galois Counter Mode for the Secure Shell Transport Layer Protocol
+5656	key-exchange-public-key	Elliptic Curve Algorithm Integration in the Secure Shell Transport Layer
+6187	authentication	X.509v3 Certificates for Secure Shell Authentication
+6239	legacy-profile	Suite B Cryptographic Suites for Secure Shell (SSH)
+6594	dns	Use of the SHA-256 Algorithm with RSA, Digital Signature Algorithm (DSA), and Elliptic Curve DSA (ECDSA) in SSHFP Resource Records
+6668	transport-integrity	SHA-2 Data Integrity Verification for the Secure Shell (SSH) Transport Layer Protocol
+7076	public-key-subsystem	P6R's Secure Shell Public Key Subsystem
+7479	dns	Using Ed25519 in SSHFP Resource Records
+8160	terminal	IUTF8 Terminal Mode in Secure Shell (SSH)
+8268	key-exchange	More Modular Exponentiation (MODP) Diffie-Hellman (DH) Key Exchange (KEX) Groups for Secure Shell (SSH)
+8270	key-exchange	Increase the Secure Shell Minimum Recommended Diffie-Hellman Modulus Size to 2048 Bits
+8308	extension-negotiation	Extension Negotiation in the Secure Shell (SSH) Protocol
+8332	public-key-authentication	Use of RSA Keys with SHA-256 and SHA-512 in the Secure Shell (SSH) Protocol
+8709	public-key	Ed25519 and Ed448 Public Key Algorithms for the Secure Shell (SSH) Protocol
+8731	key-exchange	Secure Shell (SSH) Key Exchange Method Using Curve25519 and Curve448
+8732	authentication-key-exchange	Generic Security Service Application Program Interface (GSS-API) Key Exchange with SHA-2
+8758	deprecation	Deprecating RC4 in Secure Shell (SSH)
+9142	key-exchange	Key Exchange (KEX) Method Updates and Recommendations for Secure Shell (SSH)
+9212	cryptographic-profile	Commercial National Security Algorithm (CNSA) Suite Cryptography for Secure Shell (SSH)
+9519	registry	Update to the IANA SSH Protocol Parameters Registry Requirements
+9941	key-exchange	Secure Shell (SSH) Key Exchange Method Using Hybrid Streamlined NTRU Prime sntrup761 and X25519 with SHA-512: sntrup761x25519-sha512
+9987	agent	Secure Shell (SSH) Agent Protocol
+10042	key-exchange	Post-Quantum/Traditional Hybrid Key Exchange with the Module-Lattice-Based Key-Encapsulation Mechanism for Use in SSH
