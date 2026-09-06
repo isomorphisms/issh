@@ -1,0 +1,11 @@
+# Structural watch for the first Edric embedded/CLI seam. Runtime acceptance is BoundaryTests.idric.
+nonempty	ISSH-EDRIC-CLIENT	Client.idric
+nonempty	ISSH-EDRIC-CLI	CLI.idric
+nonempty	ISSH-EDRIC-TESTS	BoundaryTests.idric
+contains	ISSH-EDRIC-REQUEST	Client.idric	record ClientRequest
+contains	ISSH-EDRIC-TERMINAL-POLICY	Client.idric	terminal_policy : TerminalPolicy
+contains	ISSH-EDRIC-SHORT-NO-TERMINAL	CLI.idric	"-T"
+contains	ISSH-EDRIC-LONG-NO-TERMINAL	CLI.idric	"--no-terminal"
+contains	ISSH-EDRIC-THANKS-NO-TERMINAL	CLI.idric	"--no-terminal-this-time-thanks"
+contains	ISSH-EDRIC-REMOTE-COMMAND-BOUNDARY	BoundaryTests.idric	remote -T remains command data
+contains	ISSH-EDRIC-EMBEDDED-BOUNDARY	BoundaryTests.idric	embedded caller uses same request type
