@@ -1,0 +1,43 @@
+module Channel
+
+import Data.Bits
+
+public export
+data ChannelState
+  = Opening
+  | Open
+  | EOFSent
+  | EOFReceived
+  | Closing
+  | Closed
+
+public export
+record Channel (state : ChannelState) where
+  constructor MkChannel
+  local_number : Bits32
+  remote_number : Maybe Bits32
+  local_window : Bits32
+  remote_window : Bits32
+  local_packet_size : Bits32
+  remote_packet_size : Bits32
+
+public export
+data ChannelOpenFailureReason
+  = AdministrativelyProhibited
+  | ConnectFailed
+  | UnknownChannelType
+  | ResourceShortage
+
+public export
+channel_open_failure_code : ChannelOpenFailureReason → Int
+channel_open_failure_code AdministrativelyProhibited = 1
+channel_open_failure_code ConnectFailed = 2
+channel_open_failure_code UnknownChannelType = 3
+channel_open_failure_code ResourceShortage = 4
+
+public export
+data ExtendedDataType = StandardError
+
+public export
+extended_data_code : ExtendedDataType → Int
+extended_data_code StandardError = 1

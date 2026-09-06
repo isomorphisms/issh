@@ -1,0 +1,21 @@
+module SCP
+
+import Data.Bits
+
+public export
+data SCPDirection = Send | Receive
+
+public export
+record SCPFile where
+  constructor MkSCPFile
+  path : String
+  mode : Bits32
+  size : Bits64
+  modification_time : Maybe Bits64
+  access_time : Maybe Bits64
+
+public export
+data SCPResponse
+  = SCPOk
+  | SCPWarning String
+  | SCPError String

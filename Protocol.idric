@@ -1,0 +1,133 @@
+module Protocol
+
+public export
+data HostKeyType
+  = UnknownHostKey
+  | RSAHostKey
+  | DSSHostKey
+  | ECDSA256HostKey
+  | ECDSA384HostKey
+  | ECDSA521HostKey
+  | ED25519HostKey
+
+public export
+host_key_code : HostKeyType → Int
+host_key_code UnknownHostKey = 0
+host_key_code RSAHostKey = 1
+host_key_code DSSHostKey = 2
+host_key_code ECDSA256HostKey = 3
+host_key_code ECDSA384HostKey = 4
+host_key_code ECDSA521HostKey = 5
+host_key_code ED25519HostKey = 6
+
+public export
+data HostKeyHash
+  = MD5HostKeyHash
+  | SHA1HostKeyHash
+  | SHA256HostKeyHash
+
+public export
+host_key_hash_code : HostKeyHash → Int
+host_key_hash_code MD5HostKeyHash = 1
+host_key_hash_code SHA1HostKeyHash = 2
+host_key_hash_code SHA256HostKeyHash = 3
+
+public export
+data DisconnectReason
+  = HostNotAllowedToConnect
+  | DisconnectProtocolError
+  | KeyExchangeFailed
+  | ReservedDisconnect
+  | DisconnectMacError
+  | CompressionError
+  | ServiceNotAvailable
+  | ProtocolVersionNotSupported
+  | HostKeyNotVerifiable
+  | ConnectionLost
+  | ByApplication
+  | TooManyConnections
+  | AuthenticationCancelledByUser
+  | NoMoreAuthenticationMethods
+  | IllegalUserName
+
+public export
+disconnect_code : DisconnectReason → Int
+disconnect_code HostNotAllowedToConnect = 1
+disconnect_code DisconnectProtocolError = 2
+disconnect_code KeyExchangeFailed = 3
+disconnect_code ReservedDisconnect = 4
+disconnect_code DisconnectMacError = 5
+disconnect_code CompressionError = 6
+disconnect_code ServiceNotAvailable = 7
+disconnect_code ProtocolVersionNotSupported = 8
+disconnect_code HostKeyNotVerifiable = 9
+disconnect_code ConnectionLost = 10
+disconnect_code ByApplication = 11
+disconnect_code TooManyConnections = 12
+disconnect_code AuthenticationCancelledByUser = 13
+disconnect_code NoMoreAuthenticationMethods = 14
+disconnect_code IllegalUserName = 15
+
+public export
+data Message
+  = Disconnect
+  | Ignore
+  | Unimplemented
+  | Debug
+  | ServiceRequest
+  | ServiceAccept
+  | ExtInfo
+  | NewCompress
+  | KexInit
+  | NewKeys
+  | KexMethodMessage Int
+  | UserAuthRequest
+  | UserAuthFailure
+  | UserAuthSuccess
+  | UserAuthBanner
+  | GlobalRequest
+  | RequestSuccess
+  | RequestFailure
+  | ChannelOpen
+  | ChannelOpenConfirmation
+  | ChannelOpenFailure
+  | ChannelWindowAdjust
+  | ChannelData
+  | ChannelExtendedData
+  | ChannelEOF
+  | ChannelClose
+  | ChannelRequest
+  | ChannelSuccess
+  | ChannelFailureMessage
+
+public export
+message_code : Message → Int
+message_code Disconnect = 1
+message_code Ignore = 2
+message_code Unimplemented = 3
+message_code Debug = 4
+message_code ServiceRequest = 5
+message_code ServiceAccept = 6
+message_code ExtInfo = 7
+message_code NewCompress = 8
+message_code KexInit = 20
+message_code NewKeys = 21
+message_code (KexMethodMessage code) = code
+message_code UserAuthRequest = 50
+message_code UserAuthFailure = 51
+message_code UserAuthSuccess = 52
+message_code UserAuthBanner = 53
+message_code GlobalRequest = 80
+message_code RequestSuccess = 81
+message_code RequestFailure = 82
+message_code ChannelOpen = 90
+message_code ChannelOpenConfirmation = 91
+message_code ChannelOpenFailure = 92
+message_code ChannelWindowAdjust = 93
+message_code ChannelData = 94
+message_code ChannelExtendedData = 95
+message_code ChannelEOF = 96
+message_code ChannelClose = 97
+message_code ChannelRequest = 98
+message_code ChannelSuccess = 99
+message_code ChannelFailureMessage = 100

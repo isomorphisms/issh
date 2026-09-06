@@ -1,0 +1,31 @@
+module Auth
+
+public export
+data AuthMethod
+  = None
+  | Password
+  | PublicKey
+  | KeyboardInteractive
+  | HostBased
+
+public export
+auth_method_name : AuthMethod → String
+auth_method_name None = "none"
+auth_method_name Password = "password"
+auth_method_name PublicKey = "publickey"
+auth_method_name KeyboardInteractive = "keyboard-interactive"
+auth_method_name HostBased = "hostbased"
+
+public export
+data AuthOutcome
+  = Authenticated
+  | AuthenticationRejected (List AuthMethod)
+  | PasswordChangeRequired String String
+  | AuthenticationBanner String String
+
+public export
+record PublicKeyIdentity where
+  constructor MkPublicKeyIdentity
+  algorithm : String
+  public_blob : List Bits8
+  comment : String

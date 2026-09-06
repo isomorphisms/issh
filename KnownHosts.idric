@@ -1,0 +1,29 @@
+module KnownHosts
+
+import Types
+
+public export
+data HostNameEncoding
+  = PlainHostName
+  | SHA1HashedHostName
+
+public export
+data KnownKeyEncoding
+  = RawKey
+  | Base64Key
+
+public export
+data KnownHostResult
+  = HostMatch
+  | HostMismatch
+  | HostNotFound
+  | KnownHostFailure
+
+public export
+record KnownHost where
+  constructor MkKnownHost
+  host : String
+  port : Port
+  algorithm : String
+  key : bytes
+  comment : Maybe String

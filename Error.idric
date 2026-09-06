@@ -1,0 +1,179 @@
+module Error
+
+public export
+data SSHError
+  = NoError
+  | SocketNone
+  | BannerReceive
+  | BannerSend
+  | InvalidMac
+  | KexFailure
+  | AllocationFailure
+  | SocketSend
+  | KeyExchangeFailure
+  | Timeout
+  | HostKeyInit
+  | HostKeySign
+  | Decrypt
+  | SocketDisconnect
+  | ProtocolError
+  | PasswordExpired
+  | FileError
+  | MethodNone
+  | AuthenticationFailed
+  | PublicKeyUnverified
+  | ChannelOutOfOrder
+  | ChannelFailure
+  | ChannelRequestDenied
+  | ChannelUnknown
+  | ChannelWindowExceeded
+  | ChannelPacketExceeded
+  | ChannelClosed
+  | ChannelEOFSent
+  | SCPProtocol
+  | Zlib
+  | SocketTimeout
+  | SFTPProtocol
+  | RequestDenied
+  | MethodNotSupported
+  | InvalidArgument
+  | InvalidPollType
+  | PublicKeyProtocol
+  | Again
+  | BufferTooSmall
+  | BadUse
+  | Compress
+  | OutOfBoundary
+  | AgentProtocol
+  | SocketReceive
+  | Encrypt
+  | BadSocket
+  | KnownHostsError
+  | ChannelWindowFull
+  | KeyFileAuthenticationFailed
+  | RandomGeneration
+  | MissingUserAuthBanner
+  | AlgorithmUnsupported
+  | MacFailure
+  | HashInit
+  | HashCalculation
+  | StoreOverflow
+
+public export
+error_code : SSHError → Int
+error_code NoError = 0
+error_code SocketNone = -1
+error_code BannerReceive = -2
+error_code BannerSend = -3
+error_code InvalidMac = -4
+error_code KexFailure = -5
+error_code AllocationFailure = -6
+error_code SocketSend = -7
+error_code KeyExchangeFailure = -8
+error_code Timeout = -9
+error_code HostKeyInit = -10
+error_code HostKeySign = -11
+error_code Decrypt = -12
+error_code SocketDisconnect = -13
+error_code ProtocolError = -14
+error_code PasswordExpired = -15
+error_code FileError = -16
+error_code MethodNone = -17
+error_code AuthenticationFailed = -18
+error_code PublicKeyUnverified = -19
+error_code ChannelOutOfOrder = -20
+error_code ChannelFailure = -21
+error_code ChannelRequestDenied = -22
+error_code ChannelUnknown = -23
+error_code ChannelWindowExceeded = -24
+error_code ChannelPacketExceeded = -25
+error_code ChannelClosed = -26
+error_code ChannelEOFSent = -27
+error_code SCPProtocol = -28
+error_code Zlib = -29
+error_code SocketTimeout = -30
+error_code SFTPProtocol = -31
+error_code RequestDenied = -32
+error_code MethodNotSupported = -33
+error_code InvalidArgument = -34
+error_code InvalidPollType = -35
+error_code PublicKeyProtocol = -36
+error_code Again = -37
+error_code BufferTooSmall = -38
+error_code BadUse = -39
+error_code Compress = -40
+error_code OutOfBoundary = -41
+error_code AgentProtocol = -42
+error_code SocketReceive = -43
+error_code Encrypt = -44
+error_code BadSocket = -45
+error_code KnownHostsError = -46
+error_code ChannelWindowFull = -47
+error_code KeyFileAuthenticationFailed = -48
+error_code RandomGeneration = -49
+error_code MissingUserAuthBanner = -50
+error_code AlgorithmUnsupported = -51
+error_code MacFailure = -52
+error_code HashInit = -53
+error_code HashCalculation = -54
+error_code StoreOverflow = -55
+
+public export
+error_from_code : Int → Maybe SSHError
+error_from_code 0 = Just NoError
+error_from_code (-1) = Just SocketNone
+error_from_code (-2) = Just BannerReceive
+error_from_code (-3) = Just BannerSend
+error_from_code (-4) = Just InvalidMac
+error_from_code (-5) = Just KexFailure
+error_from_code (-6) = Just AllocationFailure
+error_from_code (-7) = Just SocketSend
+error_from_code (-8) = Just KeyExchangeFailure
+error_from_code (-9) = Just Timeout
+error_from_code (-10) = Just HostKeyInit
+error_from_code (-11) = Just HostKeySign
+error_from_code (-12) = Just Decrypt
+error_from_code (-13) = Just SocketDisconnect
+error_from_code (-14) = Just ProtocolError
+error_from_code (-15) = Just PasswordExpired
+error_from_code (-16) = Just FileError
+error_from_code (-17) = Just MethodNone
+error_from_code (-18) = Just AuthenticationFailed
+error_from_code (-19) = Just PublicKeyUnverified
+error_from_code (-20) = Just ChannelOutOfOrder
+error_from_code (-21) = Just ChannelFailure
+error_from_code (-22) = Just ChannelRequestDenied
+error_from_code (-23) = Just ChannelUnknown
+error_from_code (-24) = Just ChannelWindowExceeded
+error_from_code (-25) = Just ChannelPacketExceeded
+error_from_code (-26) = Just ChannelClosed
+error_from_code (-27) = Just ChannelEOFSent
+error_from_code (-28) = Just SCPProtocol
+error_from_code (-29) = Just Zlib
+error_from_code (-30) = Just SocketTimeout
+error_from_code (-31) = Just SFTPProtocol
+error_from_code (-32) = Just RequestDenied
+error_from_code (-33) = Just MethodNotSupported
+error_from_code (-34) = Just InvalidArgument
+error_from_code (-35) = Just InvalidPollType
+error_from_code (-36) = Just PublicKeyProtocol
+error_from_code (-37) = Just Again
+error_from_code (-38) = Just BufferTooSmall
+error_from_code (-39) = Just BadUse
+error_from_code (-40) = Just Compress
+error_from_code (-41) = Just OutOfBoundary
+error_from_code (-42) = Just AgentProtocol
+error_from_code (-43) = Just SocketReceive
+error_from_code (-44) = Just Encrypt
+error_from_code (-45) = Just BadSocket
+error_from_code (-46) = Just KnownHostsError
+error_from_code (-47) = Just ChannelWindowFull
+error_from_code (-48) = Just KeyFileAuthenticationFailed
+error_from_code (-49) = Just RandomGeneration
+error_from_code (-50) = Just MissingUserAuthBanner
+error_from_code (-51) = Just AlgorithmUnsupported
+error_from_code (-52) = Just MacFailure
+error_from_code (-53) = Just HashInit
+error_from_code (-54) = Just HashCalculation
+error_from_code (-55) = Just StoreOverflow
+error_from_code _ = Nothing

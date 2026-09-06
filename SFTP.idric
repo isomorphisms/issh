@@ -1,0 +1,74 @@
+module SFTP
+
+import Data.Bits
+import Types
+
+public export
+sftp_version : Bits32
+sftp_version = 3
+
+public export
+data SFTPPacketType
+  = Init
+  | Version
+  | OpenFile
+  | CloseFile
+  | ReadFile
+  | WriteFile
+  | FileAttributes
+  | SetFileAttributes
+  | OpenDirectory
+  | ReadDirectory
+  | RemoveFile
+  | MakeDirectory
+  | RemoveDirectory
+  | RealPath
+  | Stat
+  | Rename
+  | ReadLink
+  | SymbolicLink
+  | Status
+  | Handle
+  | Data
+  | Name
+  | Attributes
+  | Extended
+  | ExtendedReply
+
+public export
+sftp_packet_code : SFTPPacketType → Int
+sftp_packet_code Init = 1
+sftp_packet_code Version = 2
+sftp_packet_code OpenFile = 3
+sftp_packet_code CloseFile = 4
+sftp_packet_code ReadFile = 5
+sftp_packet_code WriteFile = 6
+sftp_packet_code FileAttributes = 7
+sftp_packet_code SetFileAttributes = 9
+sftp_packet_code OpenDirectory = 11
+sftp_packet_code ReadDirectory = 12
+sftp_packet_code RemoveFile = 13
+sftp_packet_code MakeDirectory = 14
+sftp_packet_code RemoveDirectory = 15
+sftp_packet_code RealPath = 16
+sftp_packet_code Stat = 17
+sftp_packet_code Rename = 18
+sftp_packet_code ReadLink = 19
+sftp_packet_code SymbolicLink = 20
+sftp_packet_code Status = 101
+sftp_packet_code Handle = 102
+sftp_packet_code Data = 103
+sftp_packet_code Name = 104
+sftp_packet_code Attributes = 105
+sftp_packet_code Extended = 200
+sftp_packet_code ExtendedReply = 201
+
+public export
+record SFTPAttributes where
+  constructor MkSFTPAttributes
+  size : Maybe Bits64
+  user_id : Maybe Bits32
+  group_id : Maybe Bits32
+  permissions : Maybe Bits32
+  access_time : Maybe Bits32
+  modification_time : Maybe Bits32

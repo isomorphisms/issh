@@ -1,0 +1,19 @@
+package issh
+
+version = 0.1.0
+sourcedir = "."
+
+modules = Types,
+          Error,
+          Protocol,
+          Wire,
+          Transport,
+          Kex,
+          Auth,
+          Session,
+          Channel,
+          KnownHosts,
+          Agent,
+          SFTP,
+          SCP,
+          ISSH

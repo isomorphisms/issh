@@ -1,0 +1,131 @@
+module Wire
+
+import Data.Bits
+import Error
+import Types
+
+public export
+max_ssh_packet_length : number
+max_ssh_packet_length = 35000
+
+public export
+data WireError
+  = NeedBytes number number
+  | InvalidBoolean Bits8
+  | WireStoreOverflow
+
+private
+take_exact : number → List a → Maybe (List a, List a)
+take_exact Z values = Just ([], values)
+take_exact (S count) [] = Nothing
+take_exact (S count) (value :: rest) =
+  case take_exact count rest of
+    Nothing => Nothing
+    Just (front, tail) => Just (value :: front, tail)
+
+public export
+decode_u32 : bytes → Maybe (Bits32, bytes)
+decode_u32 (a :: b :: c :: d :: rest) =
+  Just
+    ( (shiftL (cast a) 24) .|.
+      (shiftL (cast b) 16) .|.
+      (shiftL (cast c) 8) .|.
+      (cast d)
+    , rest
+    )
+decode_u32 _ = Nothing
+
+public export
+encode_u32 : Bits32 → bytes
+encode_u32 value =
+  [ cast (shiftR value 24)
+  , cast (shiftR value 16)
+  , cast (shiftR value 8)
+  , cast value
+  ]
+
+public export
+decode_u64 : bytes → Maybe (Bits64, bytes)
+decode_u64 (a :: b :: c :: d :: e :: f :: g :: h :: rest) =
+  Just
+    ( (shiftL (cast a) 56) .|.
+      (shiftL (cast b) 48) .|.
+      (shiftL (cast c) 40) .|.
+      (shiftL (cast d) 32) .|.
+      (shiftL (cast e) 24) .|.
+      (shiftL (cast f) 16) .|.
+      (shiftL (cast g) 8) .|.
+      (cast h)
+    , rest
+    )
+decode_u64 _ = Nothing
+
+public export
+encode_u64 : Bits64 → bytes
+encode_u64 value =
+  [ cast (shiftR value 56)
+  , cast (shiftR value 48)
+  , cast (shiftR value 40)
+  , cast (shiftR value 32)
+  , cast (shiftR value 24)
+  , cast (shiftR value 16)
+  , cast (shiftR value 8)
+  , cast value
+  ]
+
+public export
+decode_boolean : bytes → Either WireError (Bool, bytes)
+decode_boolean [] = Left (NeedBytes 1 0)
+decode_boolean (0 :: rest) = Right (False, rest)
+decode_boolean (1 :: rest) = Right (True, rest)
+decode_boolean (value :: rest) = Left (InvalidBoolean value)
+
+public export
+encode_boolean : Bool → bytes
+encode_boolean False = [0]
+encode_boolean True = [1]
+
+public export
+decode_string : bytes → Either WireError (bytes, bytes)
+decode_string input =
+  case decode_u32 input of
+    Nothing => Left (NeedBytes 4 (length input))
+    Just (stored_length, rest) =>
+      let wanted : number = cast stored_length in
+      case take_exact wanted rest of
+        Nothing => Left (NeedBytes wanted (length rest))
+        Just result => Right result
+
+public export
+encode_string : bytes → Either SSHError bytes
+encode_string value =
+  if length value > 4294967295
+    then Left StoreOverflow
+    else Right (encode_u32 (cast (length value)) ++ value)
+
+public export
+encode_hybrid_string : bytes → bytes → Either SSHError bytes
+encode_hybrid_string first second =
+  let total = length first + length second in
+  if total > 4294967295
+    then Left StoreOverflow
+    else Right (encode_u32 (cast total) ++ first ++ second)
+
+private
+strip_leading_zeroes : bytes → bytes
+strip_leading_zeroes (0 :: rest) = strip_leading_zeroes rest
+strip_leading_zeroes value = value
+
+private
+has_high_bit : Bits8 → Bool
+has_high_bit value = (value .&. 0x80) /= 0
+
+public export
+encode_mpint_bytes : bytes → Either SSHError bytes
+encode_mpint_bytes input =
+  let value = strip_leading_zeroes input in
+  case value of
+    [] => Right (encode_u32 0)
+    first :: rest =>
+      let body = if has_high_bit first then 0 :: value else value in
+      encode_string body

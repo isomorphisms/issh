@@ -1,0 +1,55 @@
+module Kex
+
+public export
+record AlgorithmSet where
+  constructor MkAlgorithmSet
+  key_exchange : List String
+  server_host_key : List String
+  encryption_client_to_server : List String
+  encryption_server_to_client : List String
+  mac_client_to_server : List String
+  mac_server_to_client : List String
+  compression_client_to_server : List String
+  compression_server_to_client : List String
+  language_client_to_server : List String
+  language_server_to_client : List String
+
+public export
+record NegotiatedAlgorithms where
+  constructor MkNegotiatedAlgorithms
+  key_exchange : String
+  server_host_key : String
+  encryption_client_to_server : String
+  encryption_server_to_client : String
+  mac_client_to_server : String
+  mac_server_to_client : String
+  compression_client_to_server : String
+  compression_server_to_client : String
+
+public export
+first_match : List String → List String → Maybe String
+first_match [] server = Nothing
+first_match (candidate :: rest) server =
+  if elem candidate server
+    then Just candidate
+    else first_match rest server
+
+private
+required_match : String → List String → List String → Either String String
+required_match label ours theirs =
+  case first_match ours theirs of
+    Nothing => Left ("no common SSH " ++ label ++ " algorithm")
+    Just value => Right value
+
+public export
+negotiate : AlgorithmSet → AlgorithmSet → Either String NegotiatedAlgorithms
+negotiate client server = do
+  kex ← required_match "key exchange" (key_exchange client) (key_exchange server)
+  host ← required_match "host key" (server_host_key client) (server_host_key server)
+  c2s_cipher ← required_match "client-to-server cipher" (encryption_client_to_server client) (encryption_client_to_server server)
+  s2c_cipher ← required_match "server-to-client cipher" (encryption_server_to_client client) (encryption_server_to_client server)
+  c2s_mac ← required_match "client-to-server MAC" (mac_client_to_server client) (mac_client_to_server server)
+  s2c_mac ← required_match "server-to-client MAC" (mac_server_to_client client) (mac_server_to_client server)
+  c2s_compress ← required_match "client-to-server compression" (compression_client_to_server client) (compression_client_to_server server)
+  s2c_compress ← required_match "server-to-client compression" (compression_server_to_client client) (compression_server_to_client server)
+  Right (MkNegotiatedAlgorithms kex host c2s_cipher s2c_cipher c2s_mac s2c_mac c2s_compress s2c_compress)

@@ -1,0 +1,54 @@
+module Transport
+
+import Data.Bits
+import Types
+import Wire
+
+public export
+record Packet where
+  constructor MkPacket
+  packet_length : Bits32
+  padding_length : Bits8
+  payload : bytes
+  padding : bytes
+  authentication_code : bytes
+
+public export
+minimum_padding_length : number
+minimum_padding_length = 4
+
+public export
+packet_wire_length : Packet → number
+packet_wire_length packet =
+  4 + cast (packet_length packet) + length (authentication_code packet)
+
+public export
+data PacketValidity
+  = ValidPacket
+  | PacketTooLong number
+  | PaddingTooShort number
+  | PacketLengthMismatch number number
+
+public export
+validate_packet : Packet → PacketValidity
+validate_packet packet =
+  let padding_count = length (padding packet)
+      expected = 1 + length (payload packet) + padding_count
+      declared : number = cast (packet_length packet) in
+  if declared > max_ssh_packet_length
+    then PacketTooLong declared
+    else if padding_count < minimum_padding_length
+      then PaddingTooShort padding_count
+      else if declared /= expected
+        then PacketLengthMismatch declared expected
+        else ValidPacket
+
+public export
+record SequenceNumbers where
+  constructor MkSequenceNumbers
+  inbound : Bits32
+  outbound : Bits32
+
+public export
+initial_sequences : SequenceNumbers
+initial_sequences = MkSequenceNumbers 0 0

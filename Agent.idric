@@ -1,0 +1,20 @@
+module Agent
+
+import Types
+
+public export
+record AgentIdentity where
+  constructor MkAgentIdentity
+  public_key_blob : bytes
+  comment : String
+
+public export
+data AgentRequest
+  = RequestIdentities
+  | SignRequest AgentIdentity bytes Bits32
+
+public export
+data AgentResponse
+  = Identities (List AgentIdentity)
+  | Signature bytes
+  | AgentFailure
