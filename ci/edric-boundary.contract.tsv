@@ -19,5 +19,6 @@ not_contains	ISSH-EDRIC-SWALLOW-OR	.github/workflows/edric.yml	||
 not_contains	ISSH-EDRIC-SWALLOW-SET	.github/workflows/edric.yml	set +e
 actions_pinned	ISSH-EDRIC-ACTION-PIN	.github/workflows/edric.yml
 contains	ISSH-EDRIC-IDRIS-PIN	.github/workflows/edric.yml	15a3e4e70843f7a34100f6470c04b791330788df
+contains	ISSH-EDRIC-IDRIS-PIN-VERIFY	.github/workflows/edric.yml	rev-parse HEAD
 contains	ISSH-EDRIC-RUNTIME-BUILD	.github/workflows/edric.yml	idris2 --build tests.ipkg
 contains	ISSH-EDRIC-RUNTIME-EXEC	.github/workflows/edric.yml	./_/exec/issh-boundary-tests
