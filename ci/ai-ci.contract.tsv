@@ -1,0 +1,10 @@
+# Keep the issh ai-ci watch fail-closed and pinned.
+nonempty	ISSH-AICI-WORKFLOW	.github/workflows/ai-ci.yml
+yaml_forbid_key	ISSH-AICI-CONTINUE	.github/workflows/ai-ci.yml	continue-on-error
+not_contains	ISSH-AICI-SWALLOW-OR	.github/workflows/ai-ci.yml	||
+not_contains	ISSH-AICI-SWALLOW-SET	.github/workflows/ai-ci.yml	set +e
+actions_pinned	ISSH-AICI-ACTION-PIN	.github/workflows/ai-ci.yml
+contains	ISSH-AICI-CONSUMER	.github/workflows/ai-ci.yml	isomorphisms/ai-ci@
+contains	ISSH-AICI-PUSH	.github/workflows/ai-ci.yml	push:
+contains	ISSH-AICI-PR	.github/workflows/ai-ci.yml	pull_request:
+contains	ISSH-AICI-SUITE	.github/workflows/ai-ci.yml	ci/ai-ci.suite.tsv

@@ -1,0 +1,18 @@
+name: ai-ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: isomorphisms/ai-ci@4f5c0a7294cab4a915581413fbf0df3ed25121f0
+        with:
+          suite: ci/ai-ci.suite.tsv
+          root: .
