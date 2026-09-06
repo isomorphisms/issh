@@ -1,0 +1,23 @@
+module Client
+
+public export
+data TerminalPolicy
+  = TerminalDefault
+  | NoTerminal
+
+public export
+record ClientRequest where
+  constructor MkClientRequest
+  destination : String
+  terminal_policy : TerminalPolicy
+  command : List String
+
+public export
+default_request : String → ClientRequest
+default_request destination =
+  MkClientRequest destination TerminalDefault []
+
+public export
+no_terminal : ClientRequest → ClientRequest
+no_terminal (MkClientRequest destination _ command) =
+  MkClientRequest destination NoTerminal command
