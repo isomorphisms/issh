@@ -1,0 +1,22 @@
+module RuntimeStatus
+
+public export
+data RuntimeFeature
+  = TransportPacketShape
+  | SessionStateModel
+  | Authentication
+  | HostKeyVerification
+  | ChannelExecution
+
+public export
+data RuntimeFeatureStatus
+  = DomainModelOnly
+  | NotImplemented
+
+public export
+runtime_feature_status : RuntimeFeature → RuntimeFeatureStatus
+runtime_feature_status TransportPacketShape = DomainModelOnly
+runtime_feature_status SessionStateModel = DomainModelOnly
+runtime_feature_status Authentication = NotImplemented
+runtime_feature_status HostKeyVerification = NotImplemented
+runtime_feature_status ChannelExecution = NotImplemented

@@ -1,25 +1,41 @@
-# Structural watch for the first Edric embedded/CLI seam. Runtime acceptance is BoundaryTests.idric.
+# Structural watch for the Edric embedded/CLI seam plus reconciled transport/session domain model. Runtime acceptance is BoundaryTests.idric.
 nonempty	ISSH-EDRIC-CLIENT	Client.idric
 nonempty	ISSH-EDRIC-API	ISSH.idric
 nonempty	ISSH-EDRIC-CLI	CLI.idric
+nonempty	ISSH-EDRIC-TYPES	Types.idric
+nonempty	ISSH-EDRIC-TRANSPORT	Transport.idric
+nonempty	ISSH-EDRIC-SESSION	Session.idric
+nonempty	ISSH-EDRIC-RUNTIME-STATUS	RuntimeStatus.idric
 nonempty	ISSH-EDRIC-TESTS	BoundaryTests.idric
 nonempty	ISSH-EDRIC-WORKFLOW	.github/workflows/edric.yml
 contains	ISSH-EDRIC-REQUEST	Client.idric	record ClientRequest
 contains	ISSH-EDRIC-TERMINAL-POLICY	Client.idric	terminal_policy : TerminalPolicy
 contains	ISSH-EDRIC-EMBEDDED-EXPORT	ISSH.idric	import public Client
 not_contains	ISSH-EDRIC-EMBEDDED-NO-CLI	ISSH.idric	import public CLI
+not_contains	ISSH-EDRIC-EMBEDDED-NO-TRANSPORT	ISSH.idric	import public Transport
+not_contains	ISSH-EDRIC-EMBEDDED-NO-SESSION	ISSH.idric	import public Session
 contains	ISSH-EDRIC-CLI-USES-API	CLI.idric	import ISSH
 contains	ISSH-EDRIC-SHORT-NO-TERMINAL	CLI.idric	"-T"
 contains	ISSH-EDRIC-LONG-NO-TERMINAL	CLI.idric	"--no-terminal"
 contains	ISSH-EDRIC-THANKS-NO-TERMINAL	CLI.idric	"--no-terminal-this-time-thanks"
 contains	ISSH-EDRIC-REMOTE-COMMAND-BOUNDARY	BoundaryTests.idric	remote -T remains command data
 contains	ISSH-EDRIC-EMBEDDED-BOUNDARY	BoundaryTests.idric	embedded caller uses same request type
+contains	ISSH-EDRIC-TRANSPORT-SHAPE	Transport.idric	validate_packet_shape
+contains	ISSH-EDRIC-SESSION-HOSTKEY-GATE	Session.idric	AwaitingHostKeyVerification
+not_contains	ISSH-EDRIC-SESSION-NO-AUTHENTICATED-SHORTCUT	Session.idric	authenticated :
+contains	ISSH-EDRIC-AUTH-UNIMPLEMENTED	RuntimeStatus.idric	runtime_feature_status Authentication = NotImplemented
+contains	ISSH-EDRIC-HOSTKEY-UNIMPLEMENTED	RuntimeStatus.idric	runtime_feature_status HostKeyVerification = NotImplemented
+contains	ISSH-EDRIC-CHANNEL-UNIMPLEMENTED	RuntimeStatus.idric	runtime_feature_status ChannelExecution = NotImplemented
 yaml_forbid_key	ISSH-EDRIC-CONTINUE	.github/workflows/edric.yml	continue-on-error
 not_contains	ISSH-EDRIC-SWALLOW-OR	.github/workflows/edric.yml	||
 not_contains	ISSH-EDRIC-SWALLOW-SET	.github/workflows/edric.yml	set +e
 actions_pinned	ISSH-EDRIC-ACTION-PIN	.github/workflows/edric.yml
 contains	ISSH-EDRIC-IDRIS-PIN	.github/workflows/edric.yml	15a3e4e70843f7a34100f6470c04b791330788df
 contains	ISSH-EDRIC-IDRIS-PIN-VERIFY	.github/workflows/edric.yml	rev-parse HEAD
+contains	ISSH-EDRIC-PROJECT-TYPES	.github/workflows/edric.yml	ln -s Types.idric Types.idr
+contains	ISSH-EDRIC-PROJECT-TRANSPORT	.github/workflows/edric.yml	ln -s Transport.idric Transport.idr
+contains	ISSH-EDRIC-PROJECT-SESSION	.github/workflows/edric.yml	ln -s Session.idric Session.idr
+contains	ISSH-EDRIC-PROJECT-RUNTIME-STATUS	.github/workflows/edric.yml	ln -s RuntimeStatus.idric RuntimeStatus.idr
 contains	ISSH-EDRIC-PROJECT-CLIENT	.github/workflows/edric.yml	ln -s Client.idric Client.idr
 contains	ISSH-EDRIC-PROJECT-API	.github/workflows/edric.yml	ln -s ISSH.idric ISSH.idr
 contains	ISSH-EDRIC-PROJECT-CLI	.github/workflows/edric.yml	ln -s CLI.idric CLI.idr

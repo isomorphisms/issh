@@ -42,6 +42,10 @@ jobs:
 
       - name: Project canonical Edric sources for Idris2
         run: |
+          ln -s Types.idric Types.idr
+          ln -s Transport.idric Transport.idr
+          ln -s Session.idric Session.idr
+          ln -s RuntimeStatus.idric RuntimeStatus.idr
           ln -s Client.idric Client.idr
           ln -s ISSH.idric ISSH.idr
           ln -s CLI.idric CLI.idr
