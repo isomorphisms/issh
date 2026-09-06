@@ -40,6 +40,13 @@ jobs:
           make -C _/Idris2 bootstrap SCHEME=chezscheme PREFIX="$PWD/_/idris2"
           make -C _/Idris2 install SCHEME=chezscheme PREFIX="$PWD/_/idris2"
 
+      - name: Project canonical Edric sources for Idris2
+        run: |
+          ln -s Client.idric Client.idr
+          ln -s ISSH.idric ISSH.idr
+          ln -s CLI.idric CLI.idr
+          ln -s BoundaryTests.idric BoundaryTests.idr
+
       - name: Run embedded and CLI boundary receipt
         run: |
           export PATH="$PWD/_/idris2/bin:$PATH"
