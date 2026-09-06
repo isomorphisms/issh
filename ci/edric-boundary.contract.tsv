@@ -1,11 +1,23 @@
 # Structural watch for the first Edric embedded/CLI seam. Runtime acceptance is BoundaryTests.idric.
 nonempty	ISSH-EDRIC-CLIENT	Client.idric
+nonempty	ISSH-EDRIC-API	ISSH.idric
 nonempty	ISSH-EDRIC-CLI	CLI.idric
 nonempty	ISSH-EDRIC-TESTS	BoundaryTests.idric
+nonempty	ISSH-EDRIC-WORKFLOW	.github/workflows/edric.yml
 contains	ISSH-EDRIC-REQUEST	Client.idric	record ClientRequest
 contains	ISSH-EDRIC-TERMINAL-POLICY	Client.idric	terminal_policy : TerminalPolicy
+contains	ISSH-EDRIC-EMBEDDED-EXPORT	ISSH.idric	import public Client
+not_contains	ISSH-EDRIC-EMBEDDED-NO-CLI	ISSH.idric	import public CLI
+contains	ISSH-EDRIC-CLI-USES-API	CLI.idric	import ISSH
 contains	ISSH-EDRIC-SHORT-NO-TERMINAL	CLI.idric	"-T"
 contains	ISSH-EDRIC-LONG-NO-TERMINAL	CLI.idric	"--no-terminal"
 contains	ISSH-EDRIC-THANKS-NO-TERMINAL	CLI.idric	"--no-terminal-this-time-thanks"
 contains	ISSH-EDRIC-REMOTE-COMMAND-BOUNDARY	BoundaryTests.idric	remote -T remains command data
 contains	ISSH-EDRIC-EMBEDDED-BOUNDARY	BoundaryTests.idric	embedded caller uses same request type
+yaml_forbid_key	ISSH-EDRIC-CONTINUE	.github/workflows/edric.yml	continue-on-error
+not_contains	ISSH-EDRIC-SWALLOW-OR	.github/workflows/edric.yml	||
+not_contains	ISSH-EDRIC-SWALLOW-SET	.github/workflows/edric.yml	set +e
+actions_pinned	ISSH-EDRIC-ACTION-PIN	.github/workflows/edric.yml
+contains	ISSH-EDRIC-IDRIS-PIN	.github/workflows/edric.yml	15a3e4e70843f7a34100f6470c04b791330788df
+contains	ISSH-EDRIC-RUNTIME-BUILD	.github/workflows/edric.yml	idris2 --build tests.ipkg
+contains	ISSH-EDRIC-RUNTIME-EXEC	.github/workflows/edric.yml	./_/exec/issh-boundary-tests
