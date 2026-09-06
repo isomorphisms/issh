@@ -3,6 +3,9 @@ module BoundaryTests
 import System
 import ISSH
 import CLI
+import Transport
+import Session
+import RuntimeStatus
 
 fail : String → IO ()
 fail name = do
@@ -57,6 +60,39 @@ embedded_request_ok =
       destination == "user@sdf.org"
     _ => False
 
+transport_shape_ok : Bool
+transport_shape_ok =
+  case validate_packet_shape (MkPacket 8 4 [1, 2, 3] [0, 0, 0, 0] []) of
+    ValidPacketShape => True
+    _ => False
+
+padding_length_mismatch_rejected : Bool
+padding_length_mismatch_rejected =
+  case validate_packet_shape (MkPacket 8 3 [1, 2, 3] [0, 0, 0, 0] []) of
+    PaddingLengthMismatch 3 4 => True
+    _ => False
+
+session_domain_ok : Bool
+session_domain_ok =
+  let exchanged = version_exchanged (new_session "SSH-2.0-issh") "SSH-2.0-server"
+      exchanging = begin_key_exchange exchanged
+      waiting = key_exchange_complete exchanging [1, 2, 3] in
+  case waiting of
+    MkSession "SSH-2.0-issh" (Just "SSH-2.0-server") _ (Just [1, 2, 3]) => True
+    _ => False
+
+domain_model_only : RuntimeFeature → Bool
+domain_model_only feature =
+  case runtime_feature_status feature of
+    DomainModelOnly => True
+    NotImplemented => False
+
+not_implemented : RuntimeFeature → Bool
+not_implemented feature =
+  case runtime_feature_status feature of
+    NotImplemented => True
+    DomainModelOnly => False
+
 main : IO ()
 main = do
   check "default terminal policy" default_terminal_ok
@@ -69,3 +105,11 @@ main = do
   check "-- ends option parsing" double_dash_ok
   check "no-terminal still requires destination" missing_destination_ok
   check "embedded caller uses same request type" embedded_request_ok
+  check "transport packet shape model" transport_shape_ok
+  check "transport rejects padding-length mismatch" padding_length_mismatch_rejected
+  check "session stops after key exchange for host-key verification" session_domain_ok
+  check "transport is domain-model only" (domain_model_only TransportPacketShape)
+  check "session is domain-model only" (domain_model_only SessionStateModel)
+  check "authentication is not implemented" (not_implemented Authentication)
+  check "host-key verification is not implemented" (not_implemented HostKeyVerification)
+  check "channel execution is not implemented" (not_implemented ChannelExecution)

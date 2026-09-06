@@ -1,0 +1,20 @@
+module Types
+
+import Data.Bits
+
+public export
+number : Type
+number = Nat
+
+public export
+bytes : Type
+bytes = List Bits8
+
+public export
+record Port where
+  constructor MkPort
+  port_number : Bits16
+
+public export
+ssh_port : Port
+ssh_port = MkPort 22
