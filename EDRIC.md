@@ -2,9 +2,9 @@
 
 This slice deliberately leaves the imported libssh2 implementation unchanged. It remains the implementation reference while the Edric side acquires a stable caller boundary.
 
-`Client.idric` owns that boundary. Embedded callers such as `mbox` import `ISSH` and construct a `ClientRequest` directly. They do not need to manufacture command-line arguments or depend on the eventual `issh` executable.
+`ISSH.idric` is the embedded surface. Embedded callers such as `mbox` import `ISSH` and construct a `ClientRequest` directly. They do not need to manufacture command-line arguments or depend on the eventual `issh` executable.
 
-`CLI.idric` is only an adapter from command-line words to the same `ClientRequest`. Before the destination, these spellings are exactly equivalent:
+`CLI.idric` depends on `ISSH` and is only an adapter from command-line words to the same `ClientRequest`. The embedded API does not import the CLI parser. Before the destination, these spellings are exactly equivalent:
 
 - `-T`
 - `--no-terminal`
@@ -20,9 +20,9 @@ Build and run the executable receipt with an Edric/Idris2-compatible compiler:
 
 ```text
 idris2 --build tests.ipkg
-./build/exec/issh-boundary-tests
+./_/exec/issh-boundary-tests
 ```
 
-The receipt checks the default terminal policy, all three no-terminal spellings, the destination/remote-command boundary, `--`, missing destinations, and construction by an embedded caller.
+The receipt checks the default terminal policy, all three no-terminal spellings, the destination/remote-command boundary, `--`, missing destinations, and construction through the embedded `ISSH` surface.
 
-The `ai-ci` contract watches that this public seam and its acceptance cases remain present. It is a structural watch, not a substitute for compiling and running `BoundaryTests.idric`.
+`.github/workflows/edric.yml` bootstraps the pinned Idris2 0.8.0 commit and runs that receipt on Ubuntu 24.04. `ci/edric-boundary.contract.tsv` separately watches the public seam, aliases, runtime command, and fail-closed workflow structure. The structural watch does not substitute for the executable receipt.
