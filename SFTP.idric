@@ -15,8 +15,10 @@ data SFTPPacketType
   | CloseFile
   | ReadFile
   | WriteFile
-  | FileAttributes
-  | SetFileAttributes
+  | LinkStat
+  | FileStat
+  | SetStat
+  | FileSetStat
   | OpenDirectory
   | ReadDirectory
   | RemoveFile
@@ -43,8 +45,10 @@ sftp_packet_code OpenFile = 3
 sftp_packet_code CloseFile = 4
 sftp_packet_code ReadFile = 5
 sftp_packet_code WriteFile = 6
-sftp_packet_code FileAttributes = 7
-sftp_packet_code SetFileAttributes = 9
+sftp_packet_code LinkStat = 7
+sftp_packet_code FileStat = 8
+sftp_packet_code SetStat = 9
+sftp_packet_code FileSetStat = 10
 sftp_packet_code OpenDirectory = 11
 sftp_packet_code ReadDirectory = 12
 sftp_packet_code RemoveFile = 13

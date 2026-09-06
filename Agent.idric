@@ -1,5 +1,6 @@
 module Agent
 
+import Data.Bits
 import Types
 
 public export

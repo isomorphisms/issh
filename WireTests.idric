@@ -16,19 +16,40 @@ check : String → Bool → IO ()
 check name True = pass name
 check name False = fail name
 
+boolean_false_ok : Bool
+boolean_false_ok =
+  case decode_boolean [0] of
+    Right (False, []) => True
+    _ => False
+
+boolean_true_ok : Bool
+boolean_true_ok =
+  case decode_boolean [1] of
+    Right (True, []) => True
+    _ => False
+
+string_ok : Bool
+string_ok =
+  case encode_string [65, 66, 67] of
+    Left _ => False
+    Right wire =>
+      case decode_string wire of
+        Right ([65, 66, 67], []) => True
+        _ => False
+
+mpint_prefix_ok : Bool
+mpint_prefix_ok =
+  case encode_mpint_bytes [0x80] of
+    Right [0, 0, 0, 2, 0, 0x80] => True
+    _ => False
+
 main : IO ()
 main = do
   check "u32 big endian"
     (decode_u32 (encode_u32 0x12345678) == Just (0x12345678, []))
   check "u64 big endian"
     (decode_u64 (encode_u64 0x0123456789abcdef) == Just (0x0123456789abcdef, []))
-  check "boolean false"
-    (decode_boolean [0] == Right (False, []))
-  check "boolean true"
-    (decode_boolean [1] == Right (True, []))
-  check "SSH string"
-    (case encode_string [65, 66, 67] of
-       Left _ => False
-       Right wire => decode_string wire == Right ([65, 66, 67], []))
-  check "mpint sign prefix"
-    (encode_mpint_bytes [0x80] == Right [0, 0, 0, 2, 0, 0x80])
+  check "boolean false" boolean_false_ok
+  check "boolean true" boolean_true_ok
+  check "SSH string" string_ok
+  check "mpint sign prefix" mpint_prefix_ok

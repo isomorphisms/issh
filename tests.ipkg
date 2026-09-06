@@ -3,6 +3,6 @@ package issh-tests
 version = 0.1.0
 sourcedir = "."
 
-modules = Types, Wire, WireTests
+modules = Types, Error, Wire, WireTests
 main = WireTests
 executable = issh-wire-tests

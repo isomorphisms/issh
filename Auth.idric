@@ -1,8 +1,10 @@
 module Auth
 
+import Data.Bits
+
 public export
 data AuthMethod
-  = None
+  = NoAuthentication
   | Password
   | PublicKey
   | KeyboardInteractive
@@ -10,7 +12,7 @@ data AuthMethod
 
 public export
 auth_method_name : AuthMethod → String
-auth_method_name None = "none"
+auth_method_name NoAuthentication = "none"
 auth_method_name Password = "password"
 auth_method_name PublicKey = "publickey"
 auth_method_name KeyboardInteractive = "keyboard-interactive"

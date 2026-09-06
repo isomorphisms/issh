@@ -17,14 +17,14 @@ record AlgorithmSet where
 public export
 record NegotiatedAlgorithms where
   constructor MkNegotiatedAlgorithms
-  key_exchange : String
-  server_host_key : String
-  encryption_client_to_server : String
-  encryption_server_to_client : String
-  mac_client_to_server : String
-  mac_server_to_client : String
-  compression_client_to_server : String
-  compression_server_to_client : String
+  negotiated_key_exchange : String
+  negotiated_server_host_key : String
+  negotiated_encryption_client_to_server : String
+  negotiated_encryption_server_to_client : String
+  negotiated_mac_client_to_server : String
+  negotiated_mac_server_to_client : String
+  negotiated_compression_client_to_server : String
+  negotiated_compression_server_to_client : String
 
 public export
 first_match : List String → List String → Maybe String
