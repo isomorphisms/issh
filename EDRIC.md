@@ -16,7 +16,9 @@ The boundary does not pretend that transport, authentication, host-key verificat
 
 ## Acceptance
 
-Build and run the executable receipt with an Edric/Idris2-compatible compiler:
+A native Edric compiler should consume the canonical `.idric` sources directly. Stock Idris2 only resolves package modules with the `.idr` suffix, so the CI acceptance job creates transient `.idr` symlinks pointing at the canonical `.idric` files. It does not maintain a second source copy.
+
+After that compatibility projection, the executable receipt is:
 
 ```text
 idris2 --build tests.ipkg
@@ -25,4 +27,4 @@ idris2 --build tests.ipkg
 
 The receipt checks the default terminal policy, all three no-terminal spellings, the destination/remote-command boundary, `--`, missing destinations, and construction through the embedded `ISSH` surface.
 
-`.github/workflows/edric.yml` bootstraps the pinned Idris2 0.8.0 commit and runs that receipt on Ubuntu 24.04. `ci/edric-boundary.contract.tsv` separately watches the public seam, aliases, runtime command, and fail-closed workflow structure. The structural watch does not substitute for the executable receipt.
+`.github/workflows/edric.yml` bootstraps the pinned Idris2 0.8.0 commit and runs that receipt on Ubuntu 24.04. `ci/edric-boundary.contract.tsv` separately watches the public seam, aliases, exact source projection, runtime command, and fail-closed workflow structure. The structural watch does not substitute for the executable receipt.
