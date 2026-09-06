@@ -2,8 +2,10 @@ package issh-boundary-tests
 
 version = 0.1.0
 sourcedir = "."
+builddir = "_"
 
 modules = Client,
+          ISSH,
           CLI,
           BoundaryTests
 main = BoundaryTests
