@@ -1,0 +1,55 @@
+name: edric
+
+on:
+  push:
+    paths:
+      - '*.idric'
+      - '*.ipkg'
+      - '.github/workflows/edric.yml'
+  pull_request:
+    paths:
+      - '*.idric'
+      - '*.ipkg'
+      - '.github/workflows/edric.yml'
+
+permissions:
+  contents: read
+
+env:
+  IDRIS2_REV: 15a3e4e70843f7a34100f6470c04b791330788df
+
+jobs:
+  embedded-cli-boundary:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install Idris2 bootstrap dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chezscheme libgmp-dev
+
+      - name: Build pinned Idris2
+        run: |
+          mkdir -p _/Idris2
+          git -C _/Idris2 init
+          git -C _/Idris2 remote add origin https://github.com/idris-lang/Idris2.git
+          git -C _/Idris2 fetch --depth=1 origin refs/tags/v0.8.0
+          git -C _/Idris2 checkout --detach FETCH_HEAD
+          test "$(git -C _/Idris2 rev-parse HEAD)" = "$IDRIS2_REV"
+          make -C _/Idris2 bootstrap SCHEME=chezscheme PREFIX="$PWD/_/idris2"
+          make -C _/Idris2 install SCHEME=chezscheme PREFIX="$PWD/_/idris2"
+
+      - name: Project canonical Edric sources for Idris2
+        run: |
+          ln -s Client.idric Client.idr
+          ln -s ISSH.idric ISSH.idr
+          ln -s CLI.idric CLI.idr
+          ln -s BoundaryTests.idric BoundaryTests.idr
+
+      - name: Run embedded and CLI boundary receipt
+        run: |
+          export PATH="$PWD/_/idris2/bin:$PATH"
+          idris2 --version
+          idris2 --build tests.ipkg
+          ./_/exec/issh-boundary-tests

@@ -1,0 +1,71 @@
+module BoundaryTests
+
+import System
+import ISSH
+import CLI
+
+fail : String → IO ()
+fail name = do
+  putStrLn ("FAIL " ++ name)
+  exitFailure
+
+pass : String → IO ()
+pass name = putStrLn ("PASS " ++ name)
+
+check : String → Bool → IO ()
+check name True = pass name
+check name False = fail name
+
+no_terminal_alias_ok : String → Bool
+no_terminal_alias_ok spelling =
+  case parse_cli_arguments [spelling, "user@sdf.org"] of
+    Right (MkClientRequest destination NoTerminal []) =>
+      destination == "user@sdf.org"
+    _ => False
+
+default_terminal_ok : Bool
+default_terminal_ok =
+  case parse_cli_arguments ["user@sdf.org"] of
+    Right (MkClientRequest destination TerminalDefault []) =>
+      destination == "user@sdf.org"
+    _ => False
+
+command_boundary_ok : Bool
+command_boundary_ok =
+  case parse_cli_arguments ["user@sdf.org", "-T"] of
+    Right (MkClientRequest destination TerminalDefault ["-T"]) =>
+      destination == "user@sdf.org"
+    _ => False
+
+double_dash_ok : Bool
+double_dash_ok =
+  case parse_cli_arguments ["-T", "--", "user@sdf.org", "echo", "x"] of
+    Right (MkClientRequest destination NoTerminal ["echo", "x"]) =>
+      destination == "user@sdf.org"
+    _ => False
+
+missing_destination_ok : Bool
+missing_destination_ok =
+  case parse_cli_arguments ["--no-terminal"] of
+    Left _ => True
+    Right _ => False
+
+embedded_request_ok : Bool
+embedded_request_ok =
+  case no_terminal (default_request "user@sdf.org") of
+    MkClientRequest destination NoTerminal [] =>
+      destination == "user@sdf.org"
+    _ => False
+
+main : IO ()
+main = do
+  check "default terminal policy" default_terminal_ok
+  check "-T disables terminal" (no_terminal_alias_ok "-T")
+  check "--no-terminal disables terminal"
+    (no_terminal_alias_ok "--no-terminal")
+  check "--no-terminal-this-time-thanks disables terminal"
+    (no_terminal_alias_ok "--no-terminal-this-time-thanks")
+  check "remote -T remains command data" command_boundary_ok
+  check "-- ends option parsing" double_dash_ok
+  check "no-terminal still requires destination" missing_destination_ok
+  check "embedded caller uses same request type" embedded_request_ok
