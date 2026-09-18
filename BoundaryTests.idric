@@ -3,6 +3,7 @@ module BoundaryTests
 import System
 import ISSH
 import CLI
+import Types
 import Transport
 import Session
 import RuntimeStatus
