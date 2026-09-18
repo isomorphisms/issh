@@ -42,14 +42,15 @@ jobs:
 
       - name: Project canonical Edric sources for Idris2
         run: |
-          sed 's/→/->/g' Types.idric > Types.idr
-          sed 's/→/->/g' Transport.idric > Transport.idr
-          sed 's/→/->/g' Session.idric > Session.idr
-          sed 's/→/->/g' RuntimeStatus.idric > RuntimeStatus.idr
-          sed 's/→/->/g' Client.idric > Client.idr
-          sed 's/→/->/g' ISSH.idric > ISSH.idr
-          sed 's/→/->/g' CLI.idric > CLI.idr
-          sed 's/→/->/g' BoundaryTests.idric > BoundaryTests.idr
+          for source in Types.idric Transport.idric Session.idric RuntimeStatus.idric Client.idric ISSH.idric CLI.idric BoundaryTests.idric
+          do
+            target="${source%.idric}.idr"
+            {
+              IFS= read -r module_line
+              printf '%s\n\n%%unbound_implicits off\n' "$module_line"
+              sed 's/→/->/g'
+            } < "$source" > "$target"
+          done
 
       - name: Run embedded and CLI boundary receipt
         run: |
