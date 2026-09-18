@@ -32,13 +32,8 @@ not_contains	ISSH-EDRIC-SWALLOW-SET	.github/workflows/edric.yml	set +e
 actions_pinned	ISSH-EDRIC-ACTION-PIN	.github/workflows/edric.yml
 contains	ISSH-EDRIC-IDRIS-PIN	.github/workflows/edric.yml	15a3e4e70843f7a34100f6470c04b791330788df
 contains	ISSH-EDRIC-IDRIS-PIN-VERIFY	.github/workflows/edric.yml	rev-parse HEAD
-contains	ISSH-EDRIC-PROJECT-TYPES	.github/workflows/edric.yml	sed 's/→/->/g' Types.idric > Types.idr
-contains	ISSH-EDRIC-PROJECT-TRANSPORT	.github/workflows/edric.yml	sed 's/→/->/g' Transport.idric > Transport.idr
-contains	ISSH-EDRIC-PROJECT-SESSION	.github/workflows/edric.yml	sed 's/→/->/g' Session.idric > Session.idr
-contains	ISSH-EDRIC-PROJECT-RUNTIME-STATUS	.github/workflows/edric.yml	sed 's/→/->/g' RuntimeStatus.idric > RuntimeStatus.idr
-contains	ISSH-EDRIC-PROJECT-CLIENT	.github/workflows/edric.yml	sed 's/→/->/g' Client.idric > Client.idr
-contains	ISSH-EDRIC-PROJECT-API	.github/workflows/edric.yml	sed 's/→/->/g' ISSH.idric > ISSH.idr
-contains	ISSH-EDRIC-PROJECT-CLI	.github/workflows/edric.yml	sed 's/→/->/g' CLI.idric > CLI.idr
-contains	ISSH-EDRIC-PROJECT-TESTS	.github/workflows/edric.yml	sed 's/→/->/g' BoundaryTests.idric > BoundaryTests.idr
+contains	ISSH-EDRIC-PROJECT-SOURCES	.github/workflows/edric.yml	for source in Types.idric Transport.idric Session.idric RuntimeStatus.idric Client.idric ISSH.idric CLI.idric BoundaryTests.idric
+contains	ISSH-EDRIC-PROJECT-ARROW	.github/workflows/edric.yml	sed 's/→/->/g'
+contains	ISSH-EDRIC-PROJECT-UNBOUND	.github/workflows/edric.yml	%unbound_implicits off
 contains	ISSH-EDRIC-RUNTIME-BUILD	.github/workflows/edric.yml	idris2 --build tests.ipkg
 contains	ISSH-EDRIC-RUNTIME-EXEC	.github/workflows/edric.yml	./_/exec/issh-boundary-tests
