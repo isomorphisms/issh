@@ -42,10 +42,20 @@ jobs:
 
       - name: Project canonical Edric sources for Idris2
         run: |
-          ln -s Client.idric Client.idr
-          ln -s ISSH.idric ISSH.idr
-          ln -s CLI.idric CLI.idr
-          ln -s BoundaryTests.idric BoundaryTests.idr
+          for source in Types.idric Transport.idric Session.idric RuntimeStatus.idric Client.idric ISSH.idric CLI.idric BoundaryTests.idric
+          do
+            target="${source%.idric}.idr"
+            last_import="$(grep -n '^import ' "$source" | tail -n 1 | cut -d: -f1)"
+            insert_after="${last_import:-1}"
+            sed 's/→/->/g' "$source" |
+              awk -v insert_after="$insert_after" '
+                { print }
+                NR == insert_after {
+                  print ""
+                  print "%unbound_implicits off"
+                }
+              ' > "$target"
+          done
 
       - name: Run embedded and CLI boundary receipt
         run: |
