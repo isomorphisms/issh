@@ -11,6 +11,8 @@ on:
       - rfc/update.sh
       - .github/workflows/rfc-mirror.yml
 
+permissions: {}
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
