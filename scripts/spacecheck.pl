@@ -28,9 +28,16 @@ use warnings;
 
 use File::Basename;
 
+# The RFC mirror is byte-for-byte external material. Do not normalize it to
+# libssh2 source formatting rules.
+my @verbatim = (
+    '^rfc/text/',
+);
+
 my @tabs = (
     'Makefile\.[a-z]+$',
     'm4/libssh2-link\.m4$',
+    '\.tsv$',
 );
 
 my @mixed_eol = (
@@ -55,11 +62,18 @@ my @longline = (
     'tests/openssh_server/authorized_keys$',
     'tests/openssh_server/ca_user_keys.pub$',
     'tests/openssh_server/sshd_config$',
+    '^EDRIC\.md$',
+    '^TRANSLATION\.md$',
+    '\.tsv$',
 );
 
 my @non_ascii = (
     'AUTHORS',
     'RELEASE-NOTES',
+    '\.idric$',
+    '^\.github/workflows/edric\.yml$',
+    '^ci/edric-boundary\.contract\.tsv$',
+    '^rfc/(?:DRAFTS|README|RELATED)\.md$',
 );
 
 sub fn_match {
@@ -103,6 +117,8 @@ my $issues = 0;
 open(my $git_ls_files, '-|', 'git', 'ls-files') or die "Failed running git ls-files: $!";
 while(my $filename = <$git_ls_files>) {
     chomp $filename;
+
+    next if fn_match($filename, @verbatim);
 
     my @err = ();
 

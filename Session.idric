@@ -1,0 +1,52 @@
+module Session
+
+import Data.Bits
+import Transport
+
+public export
+data SessionPhase
+  = New
+  | VersionExchanged
+  | ExchangingKeys
+  | AwaitingHostKeyVerification
+  | UserAuthentication
+  | Ready
+  | Closing
+  | Closed
+
+public export
+record Session (phase : SessionPhase) where
+  constructor MkSession
+  client_banner : String
+  server_banner : Maybe String
+  sequences : SequenceNumbers
+  session_identifier : Maybe (List Bits8)
+
+public export
+new_session : String → Session New
+new_session banner = MkSession banner Nothing initial_sequences Nothing
+
+public export
+version_exchanged : Session New → String → Session VersionExchanged
+version_exchanged (MkSession client _ sequences identifier) server =
+  MkSession client (Just server) sequences identifier
+
+public export
+begin_key_exchange : Session VersionExchanged → Session ExchangingKeys
+begin_key_exchange (MkSession client server sequences identifier) =
+  MkSession client server sequences identifier
+
+public export
+key_exchange_complete : Session ExchangingKeys → List Bits8 → Session AwaitingHostKeyVerification
+key_exchange_complete (MkSession client server sequences _) identifier =
+  MkSession client server sequences (Just identifier)
+
+public export
+begin_close : Session Ready → Session Closing
+begin_close (MkSession client server sequences identifier) =
+  MkSession client server sequences identifier
+
+public export
+closed : Session Closing → Session Closed
+closed (MkSession client server sequences identifier) =
+  MkSession client server sequences identifier

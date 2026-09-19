@@ -1,0 +1,13 @@
+package issh
+
+version = 0.1.0
+sourcedir = "."
+builddir = "_"
+
+modules = Types,
+          Transport,
+          Session,
+          RuntimeStatus,
+          Client,
+          ISSH,
+          CLI

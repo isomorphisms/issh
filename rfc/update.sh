@@ -1,14 +1,14 @@
 #!/bin/sh
 set -eu
 
-here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+here=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd)
 manifest="$here/MANIFEST.tsv"
 out="$here/text"
 tab=$(printf '\t')
 
 mkdir -p "$out"
 
-while IFS="$tab" read -r rfc role title; do
+while IFS="$tab" read -r rfc _ title; do
     case "$rfc" in
         ''|'#'*) continue ;;
     esac

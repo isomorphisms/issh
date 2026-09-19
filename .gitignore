@@ -50,3 +50,6 @@ tags
 TAGS
 tap-driver.sh
 test-driver
+
+# Edric/Idris2 build and pinned compiler workspace
+_/
