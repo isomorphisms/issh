@@ -1,0 +1,15 @@
+IETF RFC embedded document terms
+
+This LicenseRef does not grant, replace, summarize, or alter a license.
+
+It records that each unmodified RFC Editor plain-text document mirrored under
+rfc/text/ remains subject to the copyright and document-use terms printed in
+that RFC, together with the IETF or Internet Society rules incorporated by
+those notices and applicable to that RFC.
+
+For the authoritative text and legal notices, use the corresponding RFC Editor
+document and rfc/NOTICE.md in this repository. Do not infer BSD-3-Clause or any
+other project license from this LicenseRef.
+
+This LicenseRef does not cover modified RFC text or extracted RFC Code
+Components; their applicable terms must be determined separately.
