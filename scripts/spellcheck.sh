@@ -8,6 +8,6 @@ cd -- "$(dirname "$0")"/..
 
 git ls-files -z | xargs -0 -r \
 codespell \
-  --skip 'docs/AUTHORS' \
+  --skip 'docs/AUTHORS,rfc/text/*' \
   --ignore-words 'scripts/codespell-ignore.words' \
   --
