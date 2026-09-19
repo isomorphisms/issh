@@ -11,16 +11,20 @@ on:
       - rfc/update.sh
       - .github/workflows/rfc-mirror.yml
 
-permissions:
-  contents: write
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   mirror:
+    name: Mirror RFC Editor text
+    permissions:
+      contents: write # Required to commit refreshed RFC mirror bytes.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # zizmor: ignore[artipacked] credential is intentionally retained for the final git push below
 
       - name: Fetch canonical RFC Editor text
         run: sh rfc/update.sh
