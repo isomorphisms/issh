@@ -32,3 +32,42 @@ SPDX-FileCopyrightText = "The libssh2 project and its contributors."
 SPDX-License-Identifier = "BSD-3-Clause"
 # If there is licensing/copyright information in or next to these files, prefer that
 precedence = "closest"
+
+[[annotations]]
+path = [
+  ".github/workflows/ai-ci.yml",
+  ".github/workflows/edric.yml",
+  ".github/workflows/rfc-mirror.yml",
+  "AGENTS.md",
+  "BoundaryTests.idric",
+  "CLI.idric",
+  "Client.idric",
+  "EDRIC.md",
+  "ISSH.idric",
+  "RuntimeStatus.idric",
+  "Session.idric",
+  "TRANSLATION.md",
+  "Transport.idric",
+  "Types.idric",
+  "ci/ai-ci.contract.tsv",
+  "ci/ai-ci.suite.tsv",
+  "ci/edric-boundary.contract.tsv",
+  "issh.ipkg",
+  "rfc/DRAFTS.md",
+  "rfc/MANIFEST.tsv",
+  "rfc/NOTICE.md",
+  "rfc/README.md",
+  "rfc/RELATED.md",
+  "rfc/SHA256SUMS",
+  "rfc/THANKS.md",
+  "rfc/update.sh",
+  "tests.ipkg",
+]
+SPDX-FileCopyrightText = "2026 isomorphisms"
+SPDX-License-Identifier = "BSD-3-Clause"
+precedence = "aggregate"
+
+[[annotations]]
+path = ["rfc/text/*.txt"]
+SPDX-License-Identifier = "LicenseRef-IETF-RFC-Embedded-Terms"
+precedence = "aggregate"
