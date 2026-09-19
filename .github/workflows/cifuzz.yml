@@ -22,7 +22,20 @@ env:
   DO_NOT_TRACK: '1'
 
 jobs:
+  fork_boundary:
+    name: 'Fork boundary (no fuzz evidence)'
+    if: ${{ github.repository != 'libssh2/libssh2' }}
+    runs-on: ubuntu-26.04
+    steps:
+      - name: 'Explain inherited upstream fuzz boundary'
+        run: |
+          printf '%s\n' \
+            'CIFuzz was not run for this fork.' \
+            'The OSS-Fuzz libssh2 integration checks out libssh2/libssh2 and cannot resolve fork-only commits.' \
+            'This successful boundary job is not fuzz evidence.'
+
   Fuzzing:
+    if: ${{ github.repository == 'libssh2/libssh2' }}
     name: 'Fuzzing'
     runs-on: ubuntu-26.04
     timeout-minutes: 10
